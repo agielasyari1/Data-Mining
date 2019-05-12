@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        
+        
+        
+        <link rel="shortcut icon" href="../img/favicon.ico">
+        <title>K Means Clustering - Data Mining</title>
+        <link href="../css/bootstrap-custom.min.css" rel="stylesheet">
+        <link href="../css/font-awesome.min.css" rel="stylesheet">
+        <link href="../css/base.css" rel="stylesheet">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css">
+        <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+        <!--[if lt IE 9]>
+            <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+            <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+        <![endif]-->
+
+        <script src="../js/jquery-1.10.2.min.js" defer></script>
+        <script src="../js/bootstrap-3.0.3.min.js" defer></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+        <script>hljs.initHighlightingOnLoad();</script> 
+    </head>
+
+    <body>
+
+        <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+            <div class="container">
+
+                <!-- Collapsed navigation -->
+                <div class="navbar-header">
+                    <!-- Expander button -->
+                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <a class="navbar-brand" href="..">Data Mining</a>
+                </div>
+
+                <!-- Expanded navigation -->
+                <div class="navbar-collapse collapse">
+                        <!-- Main navigation -->
+                        <ul class="nav navbar-nav">
+                            <li >
+                                <a href="..">KNN or K-Nearest Neighbours</a>
+                            </li>
+                            <li class="active">
+                                <a href="./">K Means Clustering</a>
+                            </li>
+                            <li >
+                                <a href="../about/">About Me</a>
+                            </li>
+                        </ul>
+
+                    <ul class="nav navbar-nav navbar-right">
+                        <li>
+                            <a href="#" data-toggle="modal" data-target="#mkdocs_search_modal">
+                                <i class="fa fa-search"></i> Search
+                            </a>
+                        </li>
+                            <li >
+                                <a rel="next" href="..">
+                                    <i class="fa fa-arrow-left"></i> Previous
+                                </a>
+                            </li>
+                            <li >
+                                <a rel="prev" href="../about/">
+                                    Next <i class="fa fa-arrow-right"></i>
+                                </a>
+                            </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="container">
+                <div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
+    <ul class="nav bs-sidenav">
+        <li class="main active"><a href="#k-means-clustering">K Means Clustering</a></li>
+            <li><a href="#kelebihan-dan-kekurangan">Kelebihan dan Kekurangan</a></li>
+        <li class="main "><a href="#study-kasus">Study Kasus</a></li>
+            <li><a href="#step-1-import-package">Step 1, Import package</a></li>
+            <li><a href="#step-2-read-data">Step 2 , Read data</a></li>
+            <li><a href="#step-3-elbow-method">Step 3, Elbow Method</a></li>
+            <li><a href="#step-4-penyesuaian-data">Step 4, Penyesuaian Data</a></li>
+            <li><a href="#step-5-visualisai">Step 5, Visualisai</a></li>
+        <li class="main "><a href="#kesimpulan">Kesimpulan</a></li>
+        <li class="main "><a href="#refences">Refences</a></li>
+    </ul>
+</div></div>
+                <div class="col-md-9" role="main">
+
+<h1 id="k-means-clustering">K Means Clustering</h1>
+<p>​   K-means merupakan salah satu algoritma <em>clustering</em> . Tujuan algoritma ini yaitu untuk membagi data menjadi beberapa kelompok. Algoritma ini menerima masukan berupa data tanpa label kelas. Hal ini berbeda dengan <em>supervised learning</em> yang menerima masukan berupa vektor (­<em>x­1 , y1</em>) , (­<em>x­2 , y2</em>) , …, (­<em>x­i , yi</em>), di mana <em>xi</em> merupakan data dari suatu data pelatihan dan <em>yi</em> merupakan label kelas untuk <em>xi</em> .</p>
+<p>​   Pada algoritma pembelajaran ini, komputer mengelompokkan sendiri data-data yang menjadi masukannya tanpa mengetahui terlebih dulu target kelasnya. Pembelajaran ini termasuk dalam <em>unsupervised learning.</em> Masukan yang diterima adalah data atau objek dan <em>k</em> buah kelompok (<em>cluster</em>) yang diinginkan.  Algoritma ini akan mengelompokkan data atau objek ke dalam <em>k</em> buah kelompok tersebut. Pada setiap <em>cluster</em> terdapat titik pusat (<em>centroid</em>) yang merepresentasikan <em>cluster</em> tersebut.</p>
+<p>​   K-means ditemukan oleh beberapa orang yaitu Lloyd (1957, 1982), Forgey (1965) , Friedman and Rubin (1967) , and McQueen (1967) . Ide dari <em>clustering</em> pertama kali ditemukan oleh Lloyd pada tahun 1957, namun hal tersebut baru dipublikasi pada tahun 1982. Pada tahun 1965, Forgey juga mempublikasi teknik yang sama sehingga terkadang dikenal sebagai Lloyd-Forgy pada beberapa sumber.</p>
+<h2 id="kelebihan-dan-kekurangan">Kelebihan dan Kekurangan</h2>
+<p><strong>kelebihan pada algoritma k-means</strong></p>
+<ol>
+<li>
+<p>Mudah untuk diimplementasikan dan dijalankan.</p>
+</li>
+<li>
+<p>Waktu yang dibutuhkan untuk menjalankan pembelajaran ini relatif cepat.</p>
+</li>
+<li>
+<p>Umum digunakan.</p>
+</li>
+</ol>
+<p><strong>kekurangan</strong></p>
+<ol>
+<li>
+<p>Sebelum algoritma dijalankan, k buah titik diinisialisasi secara <em>random</em> sehingga pengelompokkan data yang dihasilkan dapat berbeda-beda . Jika nilai <em>random</em> untuk inisialisasi kurang baik, maka pengelompokkan yang dihasilkan pun menjadi kurang optimal.</p>
+</li>
+<li>
+<p>Jika hanya terdapat beberapa titik sampel data, maka cukup mudah untuk menghitung dan mencari titik terdekat dengan <em>k</em> titik yang diinisialisasi secara <em>random.</em> Namun jika terdapat banyak sekali titik data (misalnya satu milyar buah data), maka perhitungan dan pencarian titik terdekat akan membutuhkan waktu yang lama. Proses tersebut dapat dipercepat, namun dibutuhkan struktur data yang lebih rumit seperti <em>kD-Tree</em> atau <em>hashing.</em></p>
+<p>Wikipedia-</p>
+</li>
+</ol>
+<h1 id="study-kasus">Study Kasus</h1>
+<p>Data yang digunakan pada kali ini adalah data yang diperoleh dari <a href="http://www.kaggle.com/">www.kaggle.com</a> yaitu Mall_Costomer.csv.</p>
+<h3 id="step-1-import-package">Step 1, Import package</h3>
+<p>dengan menggunakan python 3.7</p>
+<p>library yang diperlukan :</p>
+<pre><code>import numpy as np
+import pandas as pd
+import matplotlib.pyplot as plt
+</code></pre>
+
+<h3 id="step-2-read-data">Step 2 , Read data</h3>
+<pre><code class="Python">dataset=pd.read_csv('Customers.csv')
+
+X=dataset.iloc[:,[3,4]].values
+</code></pre>
+
+<h3 id="step-3-elbow-method">Step 3, Elbow Method</h3>
+<pre><code class="python">#Using the elbow method to find the optimal number of clusters
+
+from sklearn.cluster import KMeans
+
+wcss=[]
+for i in range(1,11):
+    kmeans=KMeans(n_clusters=i, init='k-means++',random_state=0)
+    kmeans.fit(X)
+    wcss.append(kmeans.inertia_)
+
+plt.plot(range(1,11),wcss)
+plt.title('The Elbow Method')
+plt.xlabel('Number of Clusters')
+plt.ylabel('WCSS')
+plt.show()
+
+</code></pre>
+
+<p><img alt="png" src="../elbow.PNG" /></p>
+<h3 id="step-4-penyesuaian-data">Step 4, Penyesuaian Data</h3>
+<pre><code class="python">#Fitting K-MEans to the dataset
+kmeans=KMeans(n_clusters=5,init='k-means++',random_state=0)
+y_kmeans=kmeans.fit_predict(X)
+</code></pre>
+
+<h3 id="step-5-visualisai">Step 5, Visualisai</h3>
+<pre><code class="Python">#Visualize the clusters
+
+plt.scatter(X[y_kmeans==0,0],X[y_kmeans==0,1],s=100,c='red',label='Cluster1')
+plt.scatter(X[y_kmeans==1,0],X[y_kmeans==1,1],s=100,c='blue',label='Cluster2')
+plt.scatter(X[y_kmeans==2,0],X[y_kmeans==2,1],s=100,c='green',label='Cluster3')
+plt.scatter(X[y_kmeans==3,0],X[y_kmeans==3,1],s=100,c='cyan',label='Cluster4')
+plt.scatter(X[y_kmeans==4,0],X[y_kmeans==4,1],s=100,c='magenta',label='Cluster5')
+
+plt.scatter(kmeans.cluster_centers_[:,0],kmeans.cluster_centers_[:,1],s=300,c='yellow',label='Centroids')
+
+plt.title('Clusters of customers')
+plt.xlabel('Annual Income(K$)')
+plt.ylabel('Spending Score(1-100)')
+plt.legend()
+plt.show()
+</code></pre>
+
+<p><img alt="" src="../skelearn.PNG" /></p>
+<h1 id="kesimpulan">Kesimpulan</h1>
+<p>Kmeans clustering adalah salah satu algoritma pengelompokan paling populer dan biasanya hal pertama yang diterapkan para praktisi ketika menyelesaikan tugas-tugas pengelompokan untuk mendapatkan gambaran tentang struktur dataset. Tujuan kmeans adalah untuk mengelompokkan titik data ke dalam subkelompok yang tidak tumpang tindih. Itu melakukan pekerjaan yang sangat baik ketika cluster memiliki semacam bentuk bola. Namun, ia menderita karena bentuk-bentuk geometri klaster menyimpang dari bentuk-bentuk bola. Selain itu, ia juga tidak mempelajari jumlah cluster dari data dan mengharuskannya untuk ditentukan sebelumnya. Untuk menjadi praktisi yang baik, ada baiknya untuk mengetahui asumsi di balik algoritma / metode sehingga Anda akan memiliki ide yang cukup bagus tentang kekuatan dan kelemahan masing-masing metode.</p>
+<h1 id="refences">Refences</h1></div>
+        </div>
+
+        <footer class="col-md-12">
+            <hr>
+            <p>Documentation built with <a href="https://www.mkdocs.org/">MkDocs</a>.</p>
+        </footer>
+        <script>
+            var base_url = "..",
+                shortcuts = {"help": 191, "next": 78, "previous": 80, "search": 83};
+        </script>
+        <script src="../js/base.js" defer></script>
+        <script src="../search/main.js" defer></script>
+
+        <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="Search Modal" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                <h4 class="modal-title" id="exampleModalLabel">Search</h4>
+            </div>
+            <div class="modal-body">
+                <p>
+                    From here you can search these documents. Enter
+                    your search terms below.
+                </p>
+                <form role="form">
+                    <div class="form-group">
+                        <input type="text" class="form-control" placeholder="Search..." id="mkdocs-search-query" title="Type search term here">
+                    </div>
+                </form>
+                <div id="mkdocs-search-results"></div>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div><div class="modal" id="mkdocs_keyboard_modal" tabindex="-1" role="dialog" aria-labelledby="Keyboard Shortcuts Modal" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                <h4 class="modal-title" id="exampleModalLabel">Keyboard Shortcuts</h4>
+            </div>
+            <div class="modal-body">
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th style="width: 20%;">Keys</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td class="help shortcut"><kbd>?</kbd></td>
+                    <td>Open this help</td>
+                  </tr>
+                  <tr>
+                    <td class="next shortcut"><kbd>n</kbd></td>
+                    <td>Next page</td>
+                  </tr>
+                  <tr>
+                    <td class="prev shortcut"><kbd>p</kbd></td>
+                    <td>Previous page</td>
+                  </tr>
+                  <tr>
+                    <td class="search shortcut"><kbd>s</kbd></td>
+                    <td>Search</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div>
+
+    </body>
+</html>

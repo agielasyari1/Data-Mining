@@ -1,0 +1,626 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="description" content="None">
+        
+        
+        <link rel="shortcut icon" href="img/favicon.ico">
+        <title>Data Mining</title>
+        <link href="css/bootstrap-custom.min.css" rel="stylesheet">
+        <link href="css/font-awesome.min.css" rel="stylesheet">
+        <link href="css/base.css" rel="stylesheet">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css">
+        <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+        <!--[if lt IE 9]>
+            <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+            <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+        <![endif]-->
+
+        <script src="js/jquery-1.10.2.min.js" defer></script>
+        <script src="js/bootstrap-3.0.3.min.js" defer></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+        <script>hljs.initHighlightingOnLoad();</script> 
+    </head>
+
+    <body class="homepage">
+
+        <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+            <div class="container">
+
+                <!-- Collapsed navigation -->
+                <div class="navbar-header">
+                    <!-- Expander button -->
+                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <a class="navbar-brand" href=".">Data Mining</a>
+                </div>
+
+                <!-- Expanded navigation -->
+                <div class="navbar-collapse collapse">
+                        <!-- Main navigation -->
+                        <ul class="nav navbar-nav">
+                            <li class="active">
+                                <a href=".">KNN or K-Nearest Neighbours</a>
+                            </li>
+                            <li >
+                                <a href="K Means Clustering/">K Means Clustering</a>
+                            </li>
+                            <li >
+                                <a href="about/">About Me</a>
+                            </li>
+                        </ul>
+
+                    <ul class="nav navbar-nav navbar-right">
+                        <li>
+                            <a href="#" data-toggle="modal" data-target="#mkdocs_search_modal">
+                                <i class="fa fa-search"></i> Search
+                            </a>
+                        </li>
+                            <li class="disabled">
+                                <a rel="next" >
+                                    <i class="fa fa-arrow-left"></i> Previous
+                                </a>
+                            </li>
+                            <li >
+                                <a rel="prev" href="K Means Clustering/">
+                                    Next <i class="fa fa-arrow-right"></i>
+                                </a>
+                            </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="container">
+                <div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
+    <ul class="nav bs-sidenav">
+        <li class="main active"><a href="#knn-or-k-nearest-neighbours">KNN or K-Nearest Neighbours</a></li>
+            <li><a href="#apa-itu-knn-k-nearest-neighbour">Apa Itu KNN (K-Nearest Neighbour) ??</a></li>
+        <li class="main "><a href="#study-kasus">Study Kasus</a></li>
+            <li><a href="#step-1-import-package">Step 1, Import package</a></li>
+            <li><a href="#step-2-feature-scalling">Step 2, Feature scalling</a></li>
+            <li><a href="#step-3-train">Step 3 Train</a></li>
+            <li><a href="#step-4-read-data">Step 4 , Read data</a></li>
+            <li><a href="#step-5-traning-testing">Step 5, Traning &amp; Testing</a></li>
+            <li><a href="#step-6-getting-matrix">Step 6, Getting Matrix</a></li>
+            <li><a href="#step-7-getting-time">Step 7, Getting time</a></li>
+            <li><a href="#step-8-implementasi">Step 8, Implementasi</a></li>
+        <li class="main "><a href="#kesimpulan">Kesimpulan</a></li>
+        <li class="main "><a href="#references">References</a></li>
+    </ul>
+</div></div>
+                <div class="col-md-9" role="main">
+
+<h1 id="knn-or-k-nearest-neighbours">KNN or K-Nearest Neighbours</h1>
+<h2 id="apa-itu-knn-k-nearest-neighbour">Apa Itu KNN (K-Nearest Neighbour) ??</h2>
+<p>Algoritma K-Nearest Neighbor (KNN) adalah sebuah metode klasifikasi terhadap sekumpulan data berdasarkan pembelajaran data yang sudah terklasifikasikan sebelumya. Termasuk dalam <em>supervised learning</em>, dimana hasil <em>query instance</em> yang baru diklasifikasikan berdasarkan mayoritas kedekatan jarak dari kategori yang ada dalam <strong>K-NN.</strong></p>
+<p>Tujuan dari algoritma ini adalah untuk mengklasifikasikan obyek baru berdasarkan atribut dan <em>sample-sample</em> dari <em>training data</em>.</p>
+<h4 id="kelebihan-dan-kekurangan-knn-k-nearest-neighbor">Kelebihan dan Kekurangan KNN (K-Nearest Neighbor)</h4>
+<p><strong>Kelebihan KNN (K-Nearest Neighbour)</strong></p>
+<ol>
+<li>Sangat nonlinear.</li>
+<li>Mudah dipahami dan diimplementasikan.</li>
+</ol>
+<p><strong>Kekurangan KNN (K-Nearest Neighbour)</strong></p>
+<ol>
+<li>Perlu menunjukkan parameter K (jumlah tetangga terdekat).</li>
+<li>Tidak menangani nilai hilang (<em>missing value</em>) secara implisit.</li>
+<li>Sensitif terhadap data pencilan (<em>outlier</em>).</li>
+<li>Rentan terhadap variabel yang non-informatif.</li>
+<li>Rentan terhadap dimensionalitas yang tinggi.</li>
+<li>Biaya komputasi cukup tinggi karena diperlukan perhitungan jarak dari setiap sampel uji pada keseluruhan sampel latih.</li>
+</ol>
+<p><img alt="img" src="https://cdn-images-1.medium.com/max/800/1*NK-Mn1TdGviwNs96eICUqQ.png" /></p>
+<h1 id="study-kasus">Study Kasus</h1>
+<p>Data yang digunakan pada kali ini adalah data yang diperoleh dari <a href="http://www.kaggle.com/">www.kaggle.com</a> yaitu Social_Network_Ads.csv.</p>
+<h3 id="step-1-import-package">Step 1, Import package</h3>
+<p>dengan menggunakan python 3.7</p>
+<p>library yang diperlukan :</p>
+<pre><code class="python">#imporing libraries
+import numpy as np
+import matplotlib.pyplot as plt
+import pandas as pd
+import time
+</code></pre>
+
+<h3 id="step-2-feature-scalling">Step 2, Feature scalling</h3>
+<p>Wikipedia-</p>
+<blockquote>
+<p>“Since the range of values of raw data varies widely, in some machine learning algorithms, objective functions will not work properly without normalization. For example, the majority of classifiers calculate the distance between two points by the Euclidean distance. If one of the features has a broad range of values, the distance will be governed by this particular feature. Therefore, the range of all features should be normalized so that each feature contributes approximately proportionately to the final distance.”</p>
+</blockquote>
+<p>​   Jadi karena klasifikasi KNN dihitung berdasarkan jarak Euclidean antar dua titik. Jika salah satu variabel memiliki jarak yang dengan rentang yang jauh(nilai yg jauh lebih tinggi),maka nilai tersebut harus disesuaikan. Jadi jarak antara semua variabel harus dinormalisasikan agar jarak akhir yang didapatkan proposional.</p>
+<pre><code class="python">#feature scaling
+class FeatureScaling:
+    def __init__(self,X,y):
+        self.X=X.copy()
+        if y.ndim==1:
+            y=np.reshape(y,(y.shape[0],1))
+        self.y=y.copy()
+        self.minMax_X={}
+        self.minMax_y={}
+
+    def fit_transform_X(self):
+        num_of_features=self.X.shape[1]
+        for i in range(num_of_features):
+            feature=self.X[:,i]
+            Mean=np.mean(feature)
+            Min=np.min(feature)
+            Max=np.max(feature)
+            feature=(feature-Mean)/(Max-Min)
+            self.minMax_X[i]=np.array([Mean,Min,Max])
+            self.X[:,i]=feature
+        return self.X.copy()
+
+    def fit_transform_Y(self):
+        num_of_features=self.y.shape[1]
+        for i in range(num_of_features):
+            feature=self.y[:,i]
+            Mean=np.mean(feature)
+            Min=np.min(feature)
+            Max=np.max(feature)
+            feature=(feature-Mean)/(Max-Min)
+            self.minMax_y[i]=np.array([Mean,Min,Max])
+            self.y[:,i]=feature
+        return np.reshape(self.y,self.y.shape[0])
+
+    def inverse_transform_X(self,X):
+        X_transformed=X.copy()
+        num_of_features=X_transformed.shape[1]
+        for i in range(num_of_features):
+            feature=X_transformed[:,i]
+            Mean=self.minMax_X[i][0]
+            Min=self.minMax_X[i][1]
+            Max=self.minMax_X[i][2]
+            feature=feature*(Max-Min)+Mean
+            X_transformed[:,i]=feature
+        return X_transformed
+
+    def inverse_transform_Y(self,y):
+        y_transformed=y.copy()
+        if y_transformed.ndim==1:
+            y_transformed=np.reshape(y_transformed,(y_transformed.shape[0],1))
+        num_of_features=y_transformed.shape[1]
+        for i in range(num_of_features):
+            feature=y_transformed[:,i]
+            Mean=self.minMax_y[i][0]
+            Min=self.minMax_y[i][1]
+            Max=self.minMax_y[i][2]
+            feature=feature*(Max-Min)+Mean
+            y_transformed[:,i]=feature
+        return np.reshape(y_transformed,y_transformed.shape[0])
+
+    def transform_X(self,X):
+        X_transformed=X.copy()
+        num_of_features=X_transformed.shape[1]
+        for i in range(num_of_features):
+            feature=X_transformed[:,i]
+            Mean=self.minMax_X[i][0]
+            Min=self.minMax_y[i][1]
+            Max=self.minMax_y[i][2]
+            feature=(feature-Mean)/(Max-Min)
+            X_transformed[:,i]=feature
+        return X_transformed
+
+    def transform_Y(self,y):
+        y_transformed=y.copy()
+        if y_transformed.ndim==1:
+            y_transformed=np.reshape(y_transformed,(y_transformed.shape[0],1))
+        num_of_features=y_transformed.shape[1]
+        for i in range(num_of_features):
+            feature=y_transformed[:,i]
+            Mean=self.minMax_y[i][0]
+            Min=self.minMax_y[i][1]
+            Max=self.minMax_y[i][2]
+            feature=(feature-Mean)/(Max-Min)
+            y_transformed[:,i]=feature
+        return np.reshape(y_transformed,y_transformed.shape[0])
+
+    def returnX(self):
+        return self.X
+
+    def returnY(self):
+        return self.y
+</code></pre>
+
+<h3 id="step-3-train">Step 3 Train</h3>
+<p>​   Saya menerapkan kelas KNN dengan fungsi standar 'cocok' untuk pelatihan dan 'prediksi' untuk memprediksi data uji. KNN menggunakan <em>lazy algoritm</em> yang berarti semua perhitungan ditangguhkan hingga prediksi. Dalam metode fit, saya hanya menetapkan data pelatihan ke variabel kelas - xtrain dan ytrain. Tidak diperlukan perhitungan.</p>
+<p>​   Saat saya mengulangi setiap baris pelatihan untuk mendapatkan skor kesamaan, saya menggunakan document_similarity fungsi kustom yang menerima dua teks dan mengembalikan skor kesamaan di antara mereka (0 &amp; 1). Skor kesamaan yang lebih tinggi menunjukkan lebih banyak kesamaan di antara mereka.</p>
+<pre><code class="python">import numpy as np
+class KNN:
+    def __init__(self,X_train,Y_train,K):
+        self.X_train=X_train
+        self.Y_train=Y_train
+        self.K=K
+
+    def predict(self,X):
+        y_pred=np.array([])
+        for each in X:
+            ed=np.sum((each-self.X_train)**2,axis=1)
+            y_ed=np.concatenate((self.Y_train.reshape(self.Y_train.shape[0],1),ed.reshape(ed.shape[0],1)),axis=1)
+            y_ed=y_ed[y_ed[:,1].argsort()]
+            K_neighbours=y_ed[0:self.K]
+            (values,counts) = np.unique(K_neighbours[:,0].astype(int),return_counts=True)
+            y_pred=np.append(y_pred,values[np.argmax(counts)])
+        return y_pred
+
+</code></pre>
+
+<h3 id="step-4-read-data">Step 4 , Read data</h3>
+<pre><code class="python">#reading dataset
+Data=pd.read_csv('Social_Network_Ads.csv')
+print(Data.head(10))
+Data.describe()
+</code></pre>
+
+<h4 id="output">Output</h4>
+<pre><code>    User ID  Gender  Age  EstimatedSalary  Purchased
+0  15624510    Male   19            19000          0
+1  15810944    Male   35            20000          0
+2  15668575  Female   26            43000          0
+3  15603246  Female   27            57000          0
+4  15804002    Male   19            76000          0
+5  15728773    Male   27            58000          0
+6  15598044  Female   27            84000          0
+7  15694829  Female   32           150000          1
+8  15600575    Male   25            33000          0
+9  15727311  Female   35            65000          0
+</code></pre>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>User ID</th>
+      <th>Age</th>
+      <th>EstimatedSalary</th>
+      <th>Purchased</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>count</th>
+      <td>4.000000e+02</td>
+      <td>400.000000</td>
+      <td>400.000000</td>
+      <td>400.000000</td>
+    </tr>
+    <tr>
+      <th>mean</th>
+      <td>1.569154e+07</td>
+      <td>37.655000</td>
+      <td>69742.500000</td>
+      <td>0.357500</td>
+    </tr>
+    <tr>
+      <th>std</th>
+      <td>7.165832e+04</td>
+      <td>10.482877</td>
+      <td>34096.960282</td>
+      <td>0.479864</td>
+    </tr>
+    <tr>
+      <th>min</th>
+      <td>1.556669e+07</td>
+      <td>18.000000</td>
+      <td>15000.000000</td>
+      <td>0.000000</td>
+    </tr>
+    <tr>
+      <th>25%</th>
+      <td>1.562676e+07</td>
+      <td>29.750000</td>
+      <td>43000.000000</td>
+      <td>0.000000</td>
+    </tr>
+    <tr>
+      <th>50%</th>
+      <td>1.569434e+07</td>
+      <td>37.000000</td>
+      <td>70000.000000</td>
+      <td>0.000000</td>
+    </tr>
+    <tr>
+      <th>75%</th>
+      <td>1.575036e+07</td>
+      <td>46.000000</td>
+      <td>88000.000000</td>
+      <td>1.000000</td>
+    </tr>
+    <tr>
+      <th>max</th>
+      <td>1.581524e+07</td>
+      <td>60.000000</td>
+      <td>150000.000000</td>
+      <td>1.000000</td>
+    </tr>
+  </tbody>
+</table>
+
+<h3 id="step-5-traning-testing">Step 5, Traning &amp; Testing</h3>
+<p>saya menggambil sampel untuk ditraining dari keseluruhan data yaitu 75% dan untuk ditesting 25%</p>
+<pre><code class="python">#training and testing set size
+train_size=int(0.75*Data.shape[0])
+test_size=int(0.25*Data.shape[0])
+print(&quot;Training set size : &quot;+ str(train_size))
+print(&quot;Testing set size : &quot;+str(test_size))
+</code></pre>
+
+<pre><code>Training set size : 300
+Testing set size : 100
+</code></pre>
+<pre><code class="python">#Getting features from dataset
+Data=Data.sample(frac=1)
+X=Data.iloc[:,[2, 3]].values
+y=Data.iloc[:,4].values
+X=X.astype(float)
+</code></pre>
+
+<pre><code class="python">#feature scaling
+fs=FeatureScaling(X,y)
+X=fs.fit_transform_X()
+</code></pre>
+
+<pre><code class="python">#training set split
+X_train=X[0:train_size,:]
+Y_train=y[0:train_size]
+</code></pre>
+
+<pre><code class="python">#testing set split
+X_test=X[train_size:,:]
+Y_test=y[train_size:]
+</code></pre>
+
+<pre><code class="python">l=time.time()
+knn=KNN(X_train,Y_train,5)
+y_pred=knn.predict(X_test)
+r=time.time()
+KNN_learn_time=(r-l)
+print(r-l)
+</code></pre>
+
+<pre><code>0.017045021057128906
+</code></pre>
+<h3 id="step-6-getting-matrix">Step 6, Getting Matrix</h3>
+<pre><code class="python">#getting the confusion matrix
+tp=len([i for i in range(0,Y_test.shape[0]) if Y_test[i]==0 and y_pred[i]==0])
+tn=len([i for i in range(0,Y_test.shape[0]) if Y_test[i]==0 and y_pred[i]==1])
+fp=len([i for i in range(0,Y_test.shape[0]) if Y_test[i]==1 and y_pred[i]==0])
+fn=len([i for i in range(0,Y_test.shape[0]) if Y_test[i]==1 and y_pred[i]==1])
+confusion_matrix=np.array([[tp,tn],[fp,fn]])
+print(confusion_matrix)
+</code></pre>
+
+<pre><code>[[54  8]
+ [ 6 32]]
+</code></pre>
+<h3 id="step-7-getting-time">Step 7, Getting time</h3>
+<p>Sebagai perbandingan waktu saja</p>
+<pre><code class="python">#Same algorithm using sklearn KNN just for comparsion purpose
+from sklearn.neighbors import KNeighborsClassifier
+classifier = KNeighborsClassifier(n_neighbors = 5, metric = 'minkowski', p = 2)
+l=time.time()
+classifier.fit(X_train, Y_train)
+y_pred_sklearn = classifier.predict(X_test)
+r=time.time()
+sklearn_time=(r-l)
+print(sklearn_time)
+</code></pre>
+
+<pre><code>0.0020058155059814453
+</code></pre>
+<pre><code class="python">print(&quot;But sklearn time is faster than our implementation by: &quot;+str(KNN_learn_time/sklearn_time)+&quot; times&quot;)
+</code></pre>
+
+<pre><code>But sklearn time is faster than our implementation by: 8.497801022227504 times
+</code></pre>
+<pre><code class="python"># Making the Confusion Matrix
+from sklearn.metrics import confusion_matrix
+cm = confusion_matrix(Y_test, y_pred_sklearn)
+print(cm)
+</code></pre>
+
+<pre><code>[[54  8]
+ [ 6 32]]
+</code></pre>
+<h3 id="step-8-implementasi">Step 8, Implementasi</h3>
+<h4 id="matplotlib">matplotlib</h4>
+<pre><code class="python"># Visualising the Training set results for our implementation
+l=time.time()
+from matplotlib.colors import ListedColormap
+X_set, y_set = X_train, Y_train
+X1, X2 = np.meshgrid(np.arange(start = X_set[:, 0].min() - 1, stop = X_set[:, 0].max() + 1, step = 0.01),
+                     np.arange(start = X_set[:, 1].min() - 1, stop = X_set[:, 1].max() + 1, step = 0.01))
+plt.contourf(X1, X2, knn.predict(np.array([X1.ravel(), X2.ravel()]).T).reshape(X1.shape),
+             alpha = 0.75, cmap = ListedColormap(('orange', 'green')))
+plt.xlim(X1.min(), X1.max())
+plt.ylim(X2.min(), X2.max())
+for i, j in enumerate(np.unique(y_set)):
+    plt.scatter(X_set[y_set == j, 0], X_set[y_set == j, 1],
+                c = ListedColormap(('red', 'green'))(i), label = j,marker='.')
+plt.title('K-NN (Training set) using our implementation')
+plt.xlabel('Age')
+plt.ylabel('Estimated Salary')
+plt.legend()
+plt.show()
+r=time.time()
+print(&quot;Time required for plotting is: &quot;+str(r-l)+&quot; seconds&quot;)
+</code></pre>
+
+<p><img alt="png" src="output_16_0.png" /></p>
+<pre><code>Time required for plotting is: 25.802637815475464 seconds
+</code></pre>
+<pre><code class="python"># Visualising the Test set results for our implementation
+l=time.time()
+X_set, y_set = X_test, Y_test
+X1, X2 = np.meshgrid(np.arange(start = X_set[:, 0].min() - 1, stop = X_set[:, 0].max() + 1, step = 0.01),
+                     np.arange(start = X_set[:, 1].min() - 1, stop = X_set[:, 1].max() + 1, step = 0.01))
+plt.contourf(X1, X2, knn.predict(np.array([X1.ravel(), X2.ravel()]).T).reshape(X1.shape),
+             alpha = 0.75, cmap = ListedColormap(('orange', 'green')))
+plt.xlim(X1.min(), X1.max())
+plt.ylim(X2.min(), X2.max())
+for i, j in enumerate(np.unique(y_set)):
+    plt.scatter(X_set[y_set == j, 0], X_set[y_set == j, 1],
+                c = ListedColormap(('red', 'green'))(i), label = j,marker='.')
+plt.title('K-NN (Test set) using our implementation')
+plt.xlabel('Age')
+plt.ylabel('Estimated Salary')
+plt.legend()
+plt.show()
+r=time.time()
+print(&quot;Time required for plotting is: &quot;+str(r-l)+&quot; seconds&quot;)
+</code></pre>
+
+<p><img alt="png" src="output_17_0.png" /></p>
+<pre><code>Time required for plotting is: 22.427660942077637 seconds
+</code></pre>
+<h4 id="skalearn">Skalearn</h4>
+<pre><code class="python"># Visualising the Training set results for sklearn class
+l=time.time()
+X_set, y_set = X_train, Y_train
+X1, X2 = np.meshgrid(np.arange(start = X_set[:, 0].min() - 1, stop = X_set[:, 0].max() + 1, step = 0.01),
+                     np.arange(start = X_set[:, 1].min() - 1, stop = X_set[:, 1].max() + 1, step = 0.01))
+plt.contourf(X1, X2, classifier.predict(np.array([X1.ravel(), X2.ravel()]).T).reshape(X1.shape),
+             alpha = 0.75, cmap = ListedColormap(('orange', 'green')))
+plt.xlim(X1.min(), X1.max())
+plt.ylim(X2.min(), X2.max())
+for i, j in enumerate(np.unique(y_set)):
+    plt.scatter(X_set[y_set == j, 0], X_set[y_set == j, 1],
+                c = ListedColormap(('red', 'green'))(i), label = j,marker='.')
+plt.title('K-NN (Training set)')
+plt.xlabel('Age')
+plt.ylabel('Estimated Salary')
+plt.legend()
+plt.show()
+r=time.time()
+print(&quot;Time required for plotting is: &quot;+str(r-l)+&quot; seconds&quot;)
+</code></pre>
+
+<p><img alt="png" src="output_18_0.png" /></p>
+<pre><code>Time required for plotting is: 0.48911190032958984 seconds
+</code></pre>
+<pre><code class="python"># Visualising the Test set results for sklearn class
+l=time.time()
+X_set, y_set = X_test, Y_test
+X1, X2 = np.meshgrid(np.arange(start = X_set[:, 0].min() - 1, stop = X_set[:, 0].max() + 1, step = 0.01),
+                     np.arange(start = X_set[:, 1].min() - 1, stop = X_set[:, 1].max() + 1, step = 0.01))
+plt.contourf(X1, X2, classifier.predict(np.array([X1.ravel(), X2.ravel()]).T).reshape(X1.shape),
+             alpha = 0.75, cmap = ListedColormap(('orange', 'green')))
+plt.xlim(X1.min(), X1.max())
+plt.ylim(X2.min(), X2.max())
+for i, j in enumerate(np.unique(y_set)):
+    plt.scatter(X_set[y_set == j, 0], X_set[y_set == j, 1],
+                c = ListedColormap(('red', 'green'))(i), label = j,marker='.')
+plt.title('K-NN (Test set)')
+plt.xlabel('Age')
+plt.ylabel('Estimated Salary')
+plt.legend()
+plt.show()
+r=time.time()
+print(&quot;Time required for plotting is: &quot;+str(r-l)+&quot; seconds&quot;)
+</code></pre>
+
+<p><img alt="png" src="output_19_0.png" /></p>
+<pre><code>Time required for plotting is: 0.47005295753479004 seconds
+</code></pre>
+<h1 id="kesimpulan">Kesimpulan</h1>
+<ol>
+<li>Algoritma KNN sangat intuitif dan mudah dimengerti,</li>
+<li>Waktu pengujian bisa sangat lama, karena algoritme melingkar di seluruh dataset training dan menghitung jarak (perhitungan jarak dapat menjadi lambat, berdasarkan pada jenis matrik jarak dan berdasarkan pada jenis dataset),</li>
+<li>Kumpulan data harus numerik atau matrik jarak harus ada untuk menghitung jarak antar titik,</li>
+<li>Tidak terlalu baik untuk digunakan pada data yang tidak seimbang</li>
+</ol>
+<h1 id="references">References</h1>
+<p>Advernesia. (2018, Mei 28). <em>Pengertian dan Cara Kerja Algoritma K-Nearest Neighbors (KNN)</em>. Retrieved from <a href="https://www.advernesia.com/blog/data-science/pengertian-dan-cara-kerja-algoritma-k-nearest-neighbours-knn/">https://www.advernesia.com/blog/data-science/pengertian-dan-cara-kerja-algoritma-k-nearest-neighbours-knn/</a></p>
+<p>Ismail, A. M. (2018, Agustus 17). <em>Cara Kerja Algoritma k-Nearest Neighbor (k-NN)</em>. Retrieved from <a href="https://medium.com/bee-solution-partners/cara-kerja-algoritma-k-nearest-neighbor-k-nn-389297de543e">https://medium.com/bee-solution-partners/cara-kerja-algoritma-k-nearest-neighbor-k-nn-389297de543e</a></p>
+<p>Solahudin, Y. (2017, Juli 1). <em>Konsep Package dan Module di Python</em>. Retrieved from <a href="https://medium.com/@yanwarsolah/konsep-package-dan-module-di-python-fe3e89e80d40">https://medium.com/@yanwarsolah/konsep-package-dan-module-di-python-fe3e89e80d40</a></p>
+<p>Zakka, K. (2016, Juli 13). <em>Panduan Lengkap untuk K-Nearest-Neighbors dengan Aplikasi dalam Python dan R</em>. Retrieved from <a href="https://kevinzakka.github.io/2016/07/13/k-nearest-neighbor/">https://kevinzakka.github.io/2016/07/13/k-nearest-neighbor/</a></p></div>
+        </div>
+
+        <footer class="col-md-12">
+            <hr>
+            <p>Documentation built with <a href="https://www.mkdocs.org/">MkDocs</a>.</p>
+        </footer>
+        <script>
+            var base_url = ".",
+                shortcuts = {"help": 191, "next": 78, "previous": 80, "search": 83};
+        </script>
+        <script src="js/base.js" defer></script>
+        <script src="search/main.js" defer></script>
+
+        <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="Search Modal" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                <h4 class="modal-title" id="exampleModalLabel">Search</h4>
+            </div>
+            <div class="modal-body">
+                <p>
+                    From here you can search these documents. Enter
+                    your search terms below.
+                </p>
+                <form role="form">
+                    <div class="form-group">
+                        <input type="text" class="form-control" placeholder="Search..." id="mkdocs-search-query" title="Type search term here">
+                    </div>
+                </form>
+                <div id="mkdocs-search-results"></div>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div><div class="modal" id="mkdocs_keyboard_modal" tabindex="-1" role="dialog" aria-labelledby="Keyboard Shortcuts Modal" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                <h4 class="modal-title" id="exampleModalLabel">Keyboard Shortcuts</h4>
+            </div>
+            <div class="modal-body">
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th style="width: 20%;">Keys</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td class="help shortcut"><kbd>?</kbd></td>
+                    <td>Open this help</td>
+                  </tr>
+                  <tr>
+                    <td class="next shortcut"><kbd>n</kbd></td>
+                    <td>Next page</td>
+                  </tr>
+                  <tr>
+                    <td class="prev shortcut"><kbd>p</kbd></td>
+                    <td>Previous page</td>
+                  </tr>
+                  <tr>
+                    <td class="search shortcut"><kbd>s</kbd></td>
+                    <td>Search</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div>
+
+    </body>
+</html>
+
+<!--
+MkDocs version : 1.0.4
+Build Date UTC : 2019-05-12 20:41:36
+-->
