@@ -104,42 +104,20 @@
 <h3 id="theory">Theory</h3>
 <p>​   Pohon keputusan adalah struktur seperti bagan alur di mana setiap simpul internal mewakili "pengujian" pada atribut , masing-masing cabang mewakili hasil pengujian, dan setiap simpul daun mewakili label kelas (keputusan diambil setelah menghitung semua atribut). Jalur dari root ke daun mewakili aturan klasifikasi. Dalam analisis keputusan, pohon keputusan dan diagram pengaruh yang terkait erat digunakan sebagai alat pendukung keputusan visual dan analitis, </p>
 <p>​   Pohon keputusan biasanya digunakan dalam riset operasi dan manajemen operasi. Jika, dalam praktiknya, keputusan harus diambil tanpa penarikan kembali di bawah pengetahuan yang tidak lengkap, pohon keputusan harus diparalelkan dengan model probabilitas sebagai model pilihan terbaik atau algoritma model seleksi. Penggunaan lain dari pohon keputusan adalah sebagai alat deskriptif untuk menghitung probabilitas bersyarat.</p>
-<p><img alt="" src="D:\OneDrive\Documents\Kuliah S1\Semester 4\Github\docs\Manual_decision_tree.jpg" /></p>
-<p>​                                                                       (Dahulu dibuat Secara Manual)</p>
-<p>Tingkat kesalahan klasifikasi hanyalah sebagian kecil dari pengamatan pelatihan di suatu wilayah yang bukan milik kelas yang paling umum.
-$$
-E=1-\max \left(\hat{p}_{m k}\right)
-$$
-​                                                               (Formula tingkat kesalahan klasifikasi)</p>
-<p>Namun, ini tidak cukup sensitif untuk penanaman pohon. Dalam praktiknya, dua metode lain digunakan.
-$$
-G=\sum_{k=1}^{K} \hat{p}<em>{m k}\left(1-\hat{p}</em>{m k}\right)
-$$
-​                                                                               (Gini Index)</p>
-<p>Ini adalah ukuran varian total di semua kelas. Seperti yang Anda lihat, indeks Gini akan kecil jika proporsinya mendekati 0 atau 1, jadi ini adalah ukuran yang baik untuk pengujian.</p>
-<p>Hal yang serupa diterapkan pada metode lain yang disebut cross-entropy.
-$$
-D=-\sum_{k=1}^{K} \hat{p}<em>{m k} \log \left(\hat{p}</em>{m k}\right)
-$$
-​                                                                               (Entropy)</p>
+<p><img alt="jpg" src="../Manual_decision_tree.jpg" />                                                                        </p>
+<p>(Dahulu dibuat Secara Manual)</p>
 <h3 id="bagging-random-forests-and-boosting">Bagging, random forests and boosting</h3>
 <h4 id="bagging"><em>Bagging</em></h4>
 <p>​   Sebelumnya dapat menghitung standar deviasi dari jumlah yang diinginkan. Untuk pohon keputusan, variansnya sangat tinggi. Oleh karena itu, dengan agregasi bootstrap atau <em>bagging</em>, kita dapat mengurangi varians dan meningkatkan kinerja pohon keputusan.</p>
-<p>​   Bagging melibatkan berulang kali mengambil sampel dari dataset. Ini menghasilkan B set pelatihan bootstrap yang berbeda. Kemudian, melatih pada semua set pelatihan bootstrap untuk mendapatkan prediksi untuk setiap set, dan kemudian rata-rata prediksi.
-$$
-\hat{f}<em>{b a g}(x)=\frac{1}{B} \sum</em>{b=1}^{B} \hat{f}^{* b}(x)
-$$
-​   Menerapkan ini ke pohon keputusan, itu berarti bahwa kita dapat membangun sejumlah besar pohon yang akan memiliki varian tinggi dan bias rendah. Kemudian, kita dapat meratakan prediksi mereka untuk mengurangi varians untuk meningkatkan kinerja pohon keputusan.</p>
+<p>​   Bagging melibatkan berulang kali mengambil sampel dari dataset. Ini menghasilkan B set pelatihan bootstrap yang berbeda. Kemudian, melatih pada semua set pelatihan bootstrap untuk mendapatkan prediksi untuk setiap set, dan kemudian rata-rata prediksi.</p>
+<p>​   Menerapkan ke pohon keputusan, itu berarti bahwa kita dapat membangun sejumlah besar pohon yang akan memiliki varian tinggi dan bias rendah. Kemudian, kita dapat meratakan prediksi mereka untuk mengurangi varians untuk meningkatkan kinerja pohon keputusan.</p>
 <h4 id="random-forests"><em>Random forests</em></h4>
-<p>​   <em>Random Forests</em> memberikan peningkatan dari pada <em>bagging</em>, dengan cara mengecek mulai bagian kecil yang ada pada pohon-pohon tersebut. Seperti dalam bagging, banyak pohon keputusan dibangun. Namun, pada setiap split, sampel acak dari prediktor m dipilih dari semua prediktor p. Pemisahan ini diizinkan untuk menggunakan hanya satu dari prediktor m, Dengan kata lain, pada setiap pemisahan, algoritma tidak diperbolehkan untuk mempertimbangkan mayoritas prediktor yang tersedia!
-$$
-m=\sqrt{p}
-$$
-<img alt="" src="D:\OneDrive\Documents\Kuliah S1\Semester 4\Github\docs\random.png" /></p>
+<p>​   <em>Random Forests</em> memberikan peningkatan dari pada <em>bagging</em>, dengan cara mengecek mulai bagian kecil yang ada pada pohon-pohon tersebut. Seperti dalam bagging, banyak pohon keputusan dibangun. Namun, pada setiap split, sampel acak dari prediktor m dipilih dari semua prediktor p. Pemisahan ini diizinkan untuk menggunakan hanya satu dari prediktor m, Dengan kata lain, pada setiap pemisahan, algoritma tidak diperbolehkan untuk mempertimbangkan mayoritas prediktor yang tersedia!</p>
+<p><img alt="png" src="../random.png" />  </p>
 <p>( Kesalahan klasifikasi sebagai fungsi dari jumlah pohon. Setiap baris mewakili jumlah prediktor yang tersedia di setiap pemisahan )</p>
 <h4 id="boosting"><em>Boosting</em></h4>
 <p>​   Tidak jauh beda dengan <em>Bagging</em> dan <em>Random forest</em>, namun <em>Bossting</em> mengkoreksi setiap pohon Ini berarti bahwa algoritma belajar dengan lambat. Setiap pohon dengan residu dari model dari pada variabel target. Oleh karena itu, setiap pohon kecil dan perlahan akan meningkatkan prediksi di daerah di mana ia tidak bekerja dengan baik</p>
-<p><img alt="" src="D:\OneDrive\Documents\Kuliah S1\Semester 4\Github\docs\boosting.png" /></p>
+<p><img alt="png" src="../boosting.png" /></p>
 <p>( Kesalahan klasifikasi sebagai fungsi dari jumlah pohon. Setiap baris mewakili kedalaman interaksi yang berbeda.)</p>
 <h1 id="study-kasus">Study Kasus</h1>
 <p>​   Banyak dataset tentang kanker payudara mengandung informasi tentang tumor. Namun, saya beruntung menemukan dataset yang berisi informasi tes darah rutin pasien dengan dan tanpa kanker payudara. Berpotensi, jika kita dapat memprediksi secara akurat jika seorang pasien menderita kanker, pasien tersebut dapat menerima perawatan yang sangat dini, bahkan sebelum tumor terlihat!</p>
