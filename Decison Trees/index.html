@@ -1,0 +1,418 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        
+        
+        
+        <link rel="shortcut icon" href="../img/favicon.ico">
+        <title>Decision Tree Classifier - Data Mining</title>
+        <link href="../css/bootstrap-custom.min.css" rel="stylesheet">
+        <link href="../css/font-awesome.min.css" rel="stylesheet">
+        <link href="../css/base.css" rel="stylesheet">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css">
+        <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+        <!--[if lt IE 9]>
+            <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+            <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+        <![endif]-->
+
+        <script src="../js/jquery-1.10.2.min.js" defer></script>
+        <script src="../js/bootstrap-3.0.3.min.js" defer></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+        <script>hljs.initHighlightingOnLoad();</script> 
+    </head>
+
+    <body>
+
+        <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+            <div class="container">
+
+                <!-- Collapsed navigation -->
+                <div class="navbar-header">
+                    <!-- Expander button -->
+                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <a class="navbar-brand" href="..">Data Mining</a>
+                </div>
+
+                <!-- Expanded navigation -->
+                <div class="navbar-collapse collapse">
+                        <!-- Main navigation -->
+                        <ul class="nav navbar-nav">
+                            <li >
+                                <a href="..">KNN or K-Nearest Neighbor</a>
+                            </li>
+                            <li class="active">
+                                <a href="./">Decision Tree Classifier</a>
+                            </li>
+                            <li >
+                                <a href="../K Means Clustering/">K Means Clustering</a>
+                            </li>
+                            <li >
+                                <a href="../about/">About Me</a>
+                            </li>
+                        </ul>
+
+                    <ul class="nav navbar-nav navbar-right">
+                        <li>
+                            <a href="#" data-toggle="modal" data-target="#mkdocs_search_modal">
+                                <i class="fa fa-search"></i> Search
+                            </a>
+                        </li>
+                            <li >
+                                <a rel="next" href="..">
+                                    <i class="fa fa-arrow-left"></i> Previous
+                                </a>
+                            </li>
+                            <li >
+                                <a rel="prev" href="../K Means Clustering/">
+                                    Next <i class="fa fa-arrow-right"></i>
+                                </a>
+                            </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="container">
+                <div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
+    <ul class="nav bs-sidenav">
+        <li class="main active"><a href="#decision-tree-classifier">Decision Tree Classifier</a></li>
+            <li><a href="#theory">Theory</a></li>
+            <li><a href="#bagging-random-forests-and-boosting">Bagging, random forests and boosting</a></li>
+        <li class="main "><a href="#study-kasus">Study Kasus</a></li>
+            <li><a href="#step-1-import-package">Step 1, Import package</a></li>
+            <li><a href="#step-3-classification">Step 3, Classification</a></li>
+            <li><a href="#step-4-ploting">Step 4, Ploting</a></li>
+            <li><a href="#step-5-modelling">Step 5, Modelling</a></li>
+            <li><a href="#step-6-matrix">Step 6, Matrix</a></li>
+            <li><a href="#step-7-implementasi">Step 7, Implementasi</a></li>
+        <li class="main "><a href="#conclusion">Conclusion</a></li>
+        <li class="main "><a href="#references">References</a></li>
+    </ul>
+</div></div>
+                <div class="col-md-9" role="main">
+
+<h1 id="decision-tree-classifier">Decision Tree Classifier</h1>
+<h3 id="theory">Theory</h3>
+<p>​   Pohon keputusan adalah struktur seperti bagan alur di mana setiap simpul internal mewakili "pengujian" pada atribut , masing-masing cabang mewakili hasil pengujian, dan setiap simpul daun mewakili label kelas (keputusan diambil setelah menghitung semua atribut). Jalur dari root ke daun mewakili aturan klasifikasi. Dalam analisis keputusan, pohon keputusan dan diagram pengaruh yang terkait erat digunakan sebagai alat pendukung keputusan visual dan analitis, </p>
+<p>​   Pohon keputusan biasanya digunakan dalam riset operasi dan manajemen operasi. Jika, dalam praktiknya, keputusan harus diambil tanpa penarikan kembali di bawah pengetahuan yang tidak lengkap, pohon keputusan harus diparalelkan dengan model probabilitas sebagai model pilihan terbaik atau algoritma model seleksi. Penggunaan lain dari pohon keputusan adalah sebagai alat deskriptif untuk menghitung probabilitas bersyarat.</p>
+<p><img alt="" src="D:\OneDrive\Documents\Kuliah S1\Semester 4\Github\docs\Manual_decision_tree.jpg" /></p>
+<p>​                                                                       (Dahulu dibuat Secara Manual)</p>
+<p>Tingkat kesalahan klasifikasi hanyalah sebagian kecil dari pengamatan pelatihan di suatu wilayah yang bukan milik kelas yang paling umum.
+$$
+E=1-\max \left(\hat{p}_{m k}\right)
+$$
+​                                                               (Formula tingkat kesalahan klasifikasi)</p>
+<p>Namun, ini tidak cukup sensitif untuk penanaman pohon. Dalam praktiknya, dua metode lain digunakan.
+$$
+G=\sum_{k=1}^{K} \hat{p}<em>{m k}\left(1-\hat{p}</em>{m k}\right)
+$$
+​                                                                               (Gini Index)</p>
+<p>Ini adalah ukuran varian total di semua kelas. Seperti yang Anda lihat, indeks Gini akan kecil jika proporsinya mendekati 0 atau 1, jadi ini adalah ukuran yang baik untuk pengujian.</p>
+<p>Hal yang serupa diterapkan pada metode lain yang disebut cross-entropy.
+$$
+D=-\sum_{k=1}^{K} \hat{p}<em>{m k} \log \left(\hat{p}</em>{m k}\right)
+$$
+​                                                                               (Entropy)</p>
+<h3 id="bagging-random-forests-and-boosting">Bagging, random forests and boosting</h3>
+<h4 id="bagging"><em>Bagging</em></h4>
+<p>​   Sebelumnya dapat menghitung standar deviasi dari jumlah yang diinginkan. Untuk pohon keputusan, variansnya sangat tinggi. Oleh karena itu, dengan agregasi bootstrap atau <em>bagging</em>, kita dapat mengurangi varians dan meningkatkan kinerja pohon keputusan.</p>
+<p>​   Bagging melibatkan berulang kali mengambil sampel dari dataset. Ini menghasilkan B set pelatihan bootstrap yang berbeda. Kemudian, melatih pada semua set pelatihan bootstrap untuk mendapatkan prediksi untuk setiap set, dan kemudian rata-rata prediksi.
+$$
+\hat{f}<em>{b a g}(x)=\frac{1}{B} \sum</em>{b=1}^{B} \hat{f}^{* b}(x)
+$$
+​   Menerapkan ini ke pohon keputusan, itu berarti bahwa kita dapat membangun sejumlah besar pohon yang akan memiliki varian tinggi dan bias rendah. Kemudian, kita dapat meratakan prediksi mereka untuk mengurangi varians untuk meningkatkan kinerja pohon keputusan.</p>
+<h4 id="random-forests"><em>Random forests</em></h4>
+<p>​   <em>Random Forests</em> memberikan peningkatan dari pada <em>bagging</em>, dengan cara mengecek mulai bagian kecil yang ada pada pohon-pohon tersebut. Seperti dalam bagging, banyak pohon keputusan dibangun. Namun, pada setiap split, sampel acak dari prediktor m dipilih dari semua prediktor p. Pemisahan ini diizinkan untuk menggunakan hanya satu dari prediktor m, Dengan kata lain, pada setiap pemisahan, algoritma tidak diperbolehkan untuk mempertimbangkan mayoritas prediktor yang tersedia!
+$$
+m=\sqrt{p}
+$$
+<img alt="" src="D:\OneDrive\Documents\Kuliah S1\Semester 4\Github\docs\random.png" /></p>
+<p>( Kesalahan klasifikasi sebagai fungsi dari jumlah pohon. Setiap baris mewakili jumlah prediktor yang tersedia di setiap pemisahan )</p>
+<h4 id="boosting"><em>Boosting</em></h4>
+<p>​   Tidak jauh beda dengan <em>Bagging</em> dan <em>Random forest</em>, namun <em>Bossting</em> mengkoreksi setiap pohon Ini berarti bahwa algoritma belajar dengan lambat. Setiap pohon dengan residu dari model dari pada variabel target. Oleh karena itu, setiap pohon kecil dan perlahan akan meningkatkan prediksi di daerah di mana ia tidak bekerja dengan baik</p>
+<p><img alt="" src="D:\OneDrive\Documents\Kuliah S1\Semester 4\Github\docs\boosting.png" /></p>
+<p>( Kesalahan klasifikasi sebagai fungsi dari jumlah pohon. Setiap baris mewakili kedalaman interaksi yang berbeda.)</p>
+<h1 id="study-kasus">Study Kasus</h1>
+<p>​   Banyak dataset tentang kanker payudara mengandung informasi tentang tumor. Namun, saya beruntung menemukan dataset yang berisi informasi tes darah rutin pasien dengan dan tanpa kanker payudara. Berpotensi, jika kita dapat memprediksi secara akurat jika seorang pasien menderita kanker, pasien tersebut dapat menerima perawatan yang sangat dini, bahkan sebelum tumor terlihat!</p>
+<p>​   Saya memperoleh dataset di <a href="https://archive.ics.uci.edu/ml/datasets/Breast+Cancer+Coimbra">sini</a>. Pertama, yang perlu diperhatikan bahwa dataset sangat kecil, dengan hanya 116 instance. Ini menimbulkan beberapa tantangan, karena pohon keputusan mungkin sesuai dengan data, atau model prediksi yang saya lakukan mungkin bukan yang terbaik, karena kurangnya pengamatan lain. Namun, itu adalah bukti konsep yang baik yang mungkin menunjukkan potensi nyata untuk memprediksi kanker payudara dari tes darah sederhana.</p>
+<h2 id="step-1-import-package">Step 1, Import package</h2>
+<p>dengan menggunakan python 3.7
+library yang diperlukan :</p>
+<pre><code class="python">import numpy as np
+import pandas as pd
+import matplotlib.pyplot as plt
+import seaborn as sns
+</code></pre>
+
+<p>Step 2, Read Data</p>
+<pre><code class="python">DATAPATH = 'data/dataR2.csv'
+
+data = pd.read_csv(DATAPATH)
+data.head()
+</code></pre>
+
+<h2 id="step-3-classification">Step 3, Classification</h2>
+<p>Mengklasifikasi data.</p>
+<pre><code class="python">x = data['Classification']
+
+ax = sns.countplot(x=x, data=data)
+</code></pre>
+
+<p><img alt="png" src="../output_5_0.png" /></p>
+<p>​                           (Seperti yang kita lihat, ada jumlah pasien dan kontrol yang hampir sama.)</p>
+<h2 id="step-4-ploting">Step 4, Ploting</h2>
+<p>Sekarang, akan menarik untuk melihat distribusi dan kepadatan setiap fitur untuk orang sehat dan pasien. Untuk melakukannya, <em>violin plots</em> sangat ideal. Ini menunjukkan kepadatan dan distribusi fitur dalam satu plot. </p>
+<pre><code class="python">y = data.columns[:-1]
+x = data.columns[-1]
+
+def violin_plots(x, y, data):
+    for i, col in enumerate(y):
+        plt.figure(i)
+        sns.set(rc={'figure.figsize':(11.7,8.27)})
+        ax = sns.violinplot(x=x, y=col, data=data)
+
+violin_plots(x, y, data)
+</code></pre>
+
+<h2 id="step-5-modelling">Step 5, Modelling</h2>
+<p>Pertama, kita perlu menyandikan kelas ke 0 dan 1:</p>
+<pre><code class="python">from sklearn.preprocessing import LabelEncoder
+
+le = LabelEncoder()
+data['Classification'] = le.fit_transform(data['Classification'])
+
+data.head()
+</code></pre>
+
+<p>Sekarang, 0 mewakili kontrol yang sehat, dan 1 mewakili pasien.</p>
+<p>Kemudian, membagi dataset menjadi set pelatihan dan tes:</p>
+<pre><code class="python">from sklearn.model_selection import train_test_split
+
+y = data['Classification'].values.reshape(-1, 1)
+X = data.drop('Classification', 1)
+
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.1, random_state=42)
+</code></pre>
+
+<h2 id="step-6-matrix">Step 6, Matrix</h2>
+<p>Perlu menentukan metrik kesalahan yang sesuai. Karena ini adalah masalah klasifikasi, </p>
+<pre><code class="python">import itertools
+
+def plot_confusion_matrix(cm, classes,
+                          normalize=False,
+                          title='Confusion matrix',
+                          cmap=plt.cm.Blues):
+    &quot;&quot;&quot;
+    This function prints and plots the confusion matrix.
+    Normalization can be applied by setting `normalize=True`.
+    &quot;&quot;&quot;
+    if normalize:
+        cm = cm.astype('float') / cm.sum(axis=1)[:, np.newaxis]
+        print(&quot;Normalized confusion matrix&quot;)
+    else:
+        print('Confusion matrix, without normalization')
+
+    print(cm)
+
+    plt.imshow(cm, interpolation='nearest', cmap=cmap)
+    plt.title(title)
+    plt.colorbar()
+    tick_marks = np.arange(len(classes))
+    plt.xticks(tick_marks, classes)
+    plt.yticks(tick_marks, classes)
+
+    fmt = '.2f' if normalize else 'd'
+    thresh = cm.max() / 2.
+    for i, j in itertools.product(range(cm.shape[0]), range(cm.shape[1])):
+        plt.text(j, i, format(cm[i, j], fmt),
+                 horizontalalignment=&quot;center&quot;,
+                 color=&quot;white&quot; if cm[i, j] &gt; thresh else &quot;black&quot;)
+
+    plt.ylabel('True label')
+    plt.xlabel('Predicted label')
+    plt.tight_layout()
+</code></pre>
+
+<h2 id="step-7-implementasi">Step 7, Implementasi</h2>
+<h3 id="decision-tree">Decision tree</h3>
+<pre><code class="python">from sklearn.tree import DecisionTreeClassifier
+from sklearn.metrics import confusion_matrix
+
+clf = DecisionTreeClassifier()
+
+clf.fit(X_train, y_train)
+y_pred = clf.predict(X_test)
+
+decision_tree_cm = confusion_matrix(y_test, y_pred)
+
+plot_confusion_matrix(decision_tree_cm, [0, 1])
+plt.show()
+</code></pre>
+
+<h5 id="output">Output</h5>
+<pre><code>Confusion matrix, without normalization
+[[6 3]
+ [0 3]]
+</code></pre>
+<p><img alt="png" src="../output_13_1.png" /></p>
+<h3 id="bagging_1">Bagging</h3>
+<pre><code class="python">from sklearn.ensemble import BaggingClassifier
+
+bagging_clf = BaggingClassifier()
+
+bagging_clf.fit(X_train, y_train.ravel())
+y_pred_bag = bagging_clf.predict(X_test)
+
+bag_cm = confusion_matrix(y_test, y_pred_bag)
+
+plot_confusion_matrix(bag_cm, [0, 1])
+plt.show()
+</code></pre>
+
+<h5 id="output_1">Output</h5>
+<pre><code>Confusion matrix, without normalization
+[[9 0]
+ [0 3]]
+</code></pre>
+<p><img alt="png" src="../output_15_2.png" /></p>
+<h3 id="random-forest">Random forest</h3>
+<p>Di sini, untuk klasifikasi <em>Random forest</em>, Menggunakan 100 dataset:</p>
+<pre><code class="python">from sklearn.ensemble import RandomForestClassifier
+
+random_clf = RandomForestClassifier(100)
+
+random_clf.fit(X_train, y_train.ravel())
+y_pred_random = random_clf.predict(X_test)
+
+random_cm = confusion_matrix(y_test, y_pred_random)
+
+plot_confusion_matrix(random_cm, [0, 1])
+plt.show()
+</code></pre>
+
+<h5 id="output_2">Output</h5>
+<pre><code>Confusion matrix, without normalization
+[[9 0]
+ [1 2]]
+</code></pre>
+<p><img alt="png" src="../output_17_1.png" /></p>
+<h3 id="boosting_1">Boosting</h3>
+<pre><code class="python">from sklearn.ensemble import GradientBoostingClassifier
+
+boost_clf = GradientBoostingClassifier()
+
+boost_clf.fit(X_train, y_train.ravel())
+y_pred_boost = boost_clf.predict(X_test)
+
+boost_cm = confusion_matrix(y_test, y_pred_boost)
+
+plot_confusion_matrix(boost_cm, [0, 1])
+plt.show()
+</code></pre>
+
+<h5 id="output_3">Output</h5>
+<pre><code>Confusion matrix, without normalization
+[[8 1]
+ [0 3]]
+</code></pre>
+<p><img alt="png" src="../output_19_1.png" /></p>
+<h1 id="conclusion">Conclusion</h1>
+<p>​   Kita telah melihat bagaimana menerapkan pohon keputusan dan bagaimana meningkatkan kinerjanya dengan <em>bosoting</em>, <em>bagging</em>, dan <em>random forest</em>. Tampaknya <em>bagging</em> memberikan hasil terbaik, karena mengklasifikasikan semua instance dengan benar.</p>
+<p>Namun, ada yang harus ingat bahwa dataset itu sangat kecil. Meskipun itu menunjukkan bahwa kita berpotensi dapat memprediksi kanker payudara dari tes darah, algoritmanya tidak mungkin bekerja dengan baik pada data yang tidak terlihat, karena tidak ada cukup data.</p>
+<h1 id="references">References</h1>
+<p>Machine Learning Course 
+(<a href="https://medium.com/open-machine-learning-course/open-machine-learning-course-topic-3-classification-decision-trees-and-k-nearest-neighbors-8613c6b6d2cd">https://medium.com/open-machine-learning-course/open-machine-learning-course-topic-3-classification-decision-trees-and-k-nearest-neighbors-8613c6b6d2cd</a> )</p>
+<p>Dicision trees in maschine learning
+( <a href="https://towardsdatascience.com/decision-trees-in-machine-learning-641b9c4e8052?source=search_post---------0">https://towardsdatascience.com/decision-trees-in-machine-learning-641b9c4e8052?source=search_post---------0</a> )</p>
+<p>Deep math machine learning
+ ( <a href="https://medium.com/deep-math-machine-learning-ai/chapter-4-decision-trees-algorithms-b93975f7a1f1">https://medium.com/deep-math-machine-learning-ai/chapter-4-decision-trees-algorithms-b93975f7a1f1</a> )</p>
+<p>Decision trees for machine learning and data science
+( <a href="https://towardsdatascience.com/a-guide-to-decision-trees-for-machine-learning-and-data-science-fe2607241956">https://towardsdatascience.com/a-guide-to-decision-trees-for-machine-learning-and-data-science-fe2607241956</a> )</p></div>
+        </div>
+
+        <footer class="col-md-12">
+            <hr>
+            <p>Documentation built with <a href="https://www.mkdocs.org/">MkDocs</a>.</p>
+        </footer>
+        <script>
+            var base_url = "..",
+                shortcuts = {"help": 191, "next": 78, "previous": 80, "search": 83};
+        </script>
+        <script src="../js/base.js" defer></script>
+        <script src="../search/main.js" defer></script>
+
+        <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="Search Modal" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                <h4 class="modal-title" id="exampleModalLabel">Search</h4>
+            </div>
+            <div class="modal-body">
+                <p>
+                    From here you can search these documents. Enter
+                    your search terms below.
+                </p>
+                <form role="form">
+                    <div class="form-group">
+                        <input type="text" class="form-control" placeholder="Search..." id="mkdocs-search-query" title="Type search term here">
+                    </div>
+                </form>
+                <div id="mkdocs-search-results"></div>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div><div class="modal" id="mkdocs_keyboard_modal" tabindex="-1" role="dialog" aria-labelledby="Keyboard Shortcuts Modal" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                <h4 class="modal-title" id="exampleModalLabel">Keyboard Shortcuts</h4>
+            </div>
+            <div class="modal-body">
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th style="width: 20%;">Keys</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td class="help shortcut"><kbd>?</kbd></td>
+                    <td>Open this help</td>
+                  </tr>
+                  <tr>
+                    <td class="next shortcut"><kbd>n</kbd></td>
+                    <td>Next page</td>
+                  </tr>
+                  <tr>
+                    <td class="prev shortcut"><kbd>p</kbd></td>
+                    <td>Previous page</td>
+                  </tr>
+                  <tr>
+                    <td class="search shortcut"><kbd>s</kbd></td>
+                    <td>Search</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div>
+
+    </body>
+</html>
